@@ -24,7 +24,7 @@ classifiers = [
     "Topic :: Office/Business :: Financial :: Investment",
 ]
 dependencies = [
-    "openbb-core>=4.0",
+    "openbb>=4.0.0",
     "ib-insync>=0.9.86",
 ]
 

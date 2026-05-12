@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Union
+from typing import Any, List, Optional
 
 import pandas as pd
 
@@ -1368,6 +1368,8 @@ def _riskfolio_allocation_rows() -> list[dict[str, Any]]:
 def _riskfolio_asset_risk_return_rows(
     duration: str, delayed: bool, risk_free_rate: float
 ) -> list[dict[str, Any]]:
+    import numpy as np
+
     returns, weights = _riskfolio_returns(duration=duration, delayed=delayed)
     rows: list[dict[str, Any]] = []
     for symbol in returns.columns:

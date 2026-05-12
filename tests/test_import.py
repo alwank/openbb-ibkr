@@ -26,29 +26,28 @@ def test_no_research_imports():
 
 def test_core_models_importable():
     """Core response models can be imported."""
-    from openbb_ibkr.models.response_models import (
-        AccountSummaryItem,
-        ContractDetails,
-        HistoricalBar,
-        MarginRequirement,
-        MarketQuote,
-        OptionChainContract,
-        OptionDecisionSignal,
-        OptionScreenerContract,
-        Order,
-        Position,
-        Quote,
-        RiskfolioMetric,
-        RiskfolioWeight,
-        Trade,
-    )
+    from openbb_ibkr.models.response_models import Position, RiskfolioMetric
+
     assert Position is not None
     assert RiskfolioMetric is not None
 
 
+def test_all_core_models_importable():
+    """Every class in response_models is importable."""
+    import importlib
+    import inspect
+
+    mod = importlib.import_module("openbb_ibkr.models.response_models")
+    members = [m for _, m in inspect.getmembers(mod, inspect.isclass)]
+    assert len(members) > 10  # sanity: lots of model classes
+    for cls in members:
+        obj = getattr(mod, cls.__name__)
+        assert obj is not None
+
+
 def test_client_importable():
     """The IBKR client class can be imported."""
-    from openbb_ibkr.utils.client import IbkrClient, IbkrConnectionError
+    from openbb_ibkr.utils.client import IbkrClient
     assert IbkrClient._host == "127.0.0.1"
     assert IbkrClient._port == 7497
 

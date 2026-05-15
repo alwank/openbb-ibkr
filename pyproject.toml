@@ -36,9 +36,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/alwanalkautsar/openbb-ibkr"
-Repository = "https://github.com/alwanalkautsar/openbb-ibkr"
-Issues = "https://github.com/alwanalkautsar/openbb-ibkr/issues"
+Homepage = "https://github.com/alwank/openbb-ibkr"
+Repository = "https://github.com/alwank/openbb-ibkr"
+Issues = "https://github.com/alwank/openbb-ibkr/issues"
 
 [project.entry-points."openbb_provider_extension"]
 ibkr = "openbb_ibkr:ibkr_provider"

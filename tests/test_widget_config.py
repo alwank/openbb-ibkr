@@ -1,7 +1,6 @@
 """Tests for widget_config presence on core portfolio endpoints."""
 
 import ast
-import re
 from pathlib import Path
 
 ROUTER_PATH = Path(__file__).resolve().parent.parent / "openbb_ibkr" / "ibkr_router.py"

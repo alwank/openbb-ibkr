@@ -5,6 +5,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/alwank/openbb-ibkr/actions/workflows/ci.yml/badge.svg)](https://github.com/alwank/openbb-ibkr/actions/workflows/ci.yml)
 
+![IBKR widgets in OpenBB Workspace](image.png)
+
 Interactive Brokers (IBKR) provider extension for the [OpenBB Platform](https://openbb.co). Connects your IBKR portfolio data — positions, account summary, margin, orders, trades, and market data — directly into OpenBB.
 
 ## Features
@@ -89,7 +91,6 @@ To allow this extension to connect, enable the API in your IBKR client:
 
 ## OpenBB Workspace Integration
 
-![IBKR widgets in OpenBB Workspace](image.png)
 
 All IBKR commands ship with pre-configured **widget metadata** for the OpenBB Workspace UI. Table commands include column definitions, chart views (bar, treemap, scatter, grouped bar, line), and grid layouts. Chart commands return Plotly JSON that renders natively in Workspace dashboards.
 

@@ -1526,7 +1526,38 @@ def configure(
     )
 
 
-@router.command(methods=["GET"])
+@router.command(
+    methods=["GET"],
+    widget_config={
+        "name": "IBKR Account Summary",
+        "description": "Account tags: NetLiquidation, TotalCashValue, BuyingPower, margins, and more.",
+        "type": "table",
+        "source": ["IBKR"],
+        "category": "IBKR",
+        "subCategory": "Portfolio",
+        "widgetId": "ibkr_account_summary_custom_obb",
+        "gridData": {"w": 40, "h": 12},
+        "data": {
+            "table": {
+                "showAll": True,
+                "enableAdvanced": True,
+                "enableCharts": True,
+                "chartView": {
+                    "enabled": False,
+                    "chartType": "bar",
+                    "cellRangeCols": {"bar": ["tag", "value"]},
+                    "ignoreCellRange": True,
+                },
+                "columnsDefs": [
+                    _column("tag", "Tag", "text", "none", "category", "left"),
+                    _column("value", "Value", "text", chart_data_type="series"),
+                    _column("currency", "Currency", "text", chart_data_type="category"),
+                    _column("account", "Account", "text", chart_data_type="excluded"),
+                ],
+            }
+        },
+    },
+)
 def account_summary(
     host: Optional[str] = None,
     port: Optional[str] = None,
@@ -1556,7 +1587,42 @@ def account_summary(
     return OBBject(results=results)
 
 
-@router.command(methods=["GET"])
+@router.command(
+    methods=["GET"],
+    widget_config={
+        "name": "IBKR Margin Summary",
+        "description": "Margin requirements: init/maint margin, available funds, excess liquidity, cushion.",
+        "type": "table",
+        "source": ["IBKR"],
+        "category": "IBKR",
+        "subCategory": "Portfolio",
+        "widgetId": "ibkr_margin_summary_custom_obb",
+        "gridData": {"w": 40, "h": 10},
+        "data": {
+            "table": {
+                "showAll": True,
+                "enableAdvanced": True,
+                "enableCharts": True,
+                "chartView": {
+                    "enabled": False,
+                    "chartType": "bar",
+                    "cellRangeCols": {"bar": ["account", "init_margin_req", "maint_margin_req", "available_funds"]},
+                    "ignoreCellRange": True,
+                },
+                "columnsDefs": [
+                    _column("account", "Account", "text", "none", "category", "left"),
+                    _column("currency", "Currency", "text", chart_data_type="excluded"),
+                    _column("init_margin_req", "Init Margin", "number", chart_data_type="series"),
+                    _column("maint_margin_req", "Maint Margin", "number", chart_data_type="series"),
+                    _column("available_funds", "Available Funds", "number", chart_data_type="series"),
+                    _column("excess_liquidity", "Excess Liquidity", "number", chart_data_type="series"),
+                    _column("cushion", "Cushion", "number", "normalizedPercent", "series"),
+                    _column("sma", "SMA", "number", chart_data_type="series"),
+                ],
+            }
+        },
+    },
+)
 def margin_summary(
     host: Optional[str] = None,
     port: Optional[str] = None,
@@ -1612,7 +1678,43 @@ def account_values(
     return OBBject(results=values)
 
 
-@router.command(methods=["GET"])
+@router.command(
+    methods=["GET"],
+    widget_config={
+        "name": "IBKR Positions",
+        "description": "Portfolio positions with market value, cost basis, and P&L.",
+        "type": "table",
+        "source": ["IBKR"],
+        "category": "IBKR",
+        "subCategory": "Portfolio",
+        "widgetId": "ibkr_positions_custom_obb",
+        "gridData": {"w": 40, "h": 15},
+        "data": {
+            "table": {
+                "showAll": True,
+                "enableAdvanced": True,
+                "enableCharts": True,
+                "chartView": {
+                    "enabled": False,
+                    "chartType": "treemap",
+                    "cellRangeCols": {"treemap": ["symbol", "market_value"]},
+                    "ignoreCellRange": True,
+                },
+                "columnsDefs": [
+                    _column("symbol", "Symbol", "text", "none", "category", "left"),
+                    _column("sec_type", "Type", "text", chart_data_type="excluded"),
+                    _column("position", "Position", "number", chart_data_type="series"),
+                    _column("market_price", "Price", "number", chart_data_type="series"),
+                    _column("market_value", "Market Value", "number", chart_data_type="series"),
+                    _column("average_cost", "Avg Cost", "number", chart_data_type="series"),
+                    _column("unrealized_pnl", "Unrealized P&L", "number", chart_data_type="series"),
+                    _column("realized_pnl", "Realized P&L", "number", chart_data_type="series"),
+                    _column("currency", "Currency", "text", chart_data_type="excluded"),
+                ],
+            }
+        },
+    },
+)
 def positions(
     host: Optional[str] = None,
     port: Optional[str] = None,

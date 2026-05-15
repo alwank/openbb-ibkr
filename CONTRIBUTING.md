@@ -5,7 +5,7 @@ Contributions are welcome! Here's how to get started.
 ## Setup
 
 ```bash
-git clone https://github.com/alwanalkautsar/openbb-ibkr.git
+git clone https://github.com/alwank/openbb-ibkr.git
 cd openbb-ibkr
 python -m venv venv
 source venv/bin/activate

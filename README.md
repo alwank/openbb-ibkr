@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/openbb-ibkr?label=version)](https://pypi.org/project/openbb-ibkr/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/alwank/openbb-ibkr/actions/workflows/ci.yml/badge.svg)](https://github.com/alwank/openbb-ibkr/actions/workflows/ci.yml)
 
 Interactive Brokers (IBKR) provider extension for the [OpenBB Platform](https://openbb.co). Connects your IBKR portfolio data — positions, account summary, margin, orders, trades, and market data — directly into OpenBB.
 
@@ -50,6 +51,13 @@ openbb-build
 
 > **Important:** The `openbb-build` step is required after installing any new OpenBB extension.
 
+### Uninstalling
+
+```bash
+pip uninstall openbb-ibkr
+openbb-build
+```
+
 ## Configuration
 
 ```python
@@ -63,9 +71,35 @@ obb.user.credentials.ibkr_delayed = True   # Use delayed (non-subscribed) market
 
 You can also override connection parameters per-request via `host`, `port`, and `client_id` parameters on any command — useful for switching between accounts or environments.
 
+## TWS / IB Gateway Setup
+
+To allow this extension to connect, enable the API in your IBKR client:
+
+1. In TWS: **Edit → Global Configuration → API → Settings**
+2. Check **"Enable ActiveX and Socket Clients"**
+3. Add `127.0.0.1` to **Trusted IPs** (or uncheck "Allow connections from localhost only" for remote access)
+4. Note the **Socket port** — defaults:
+
+| Client | Live | Paper |
+|--------|------|-------|
+| TWS | 7496 | 7497 |
+| IB Gateway | 4001 | 4002 |
+
+> **Tip:** IB Gateway is lighter-weight and preferred for automated/headless setups.
+
 ## OpenBB Workspace Integration
 
+![IBKR widgets in OpenBB Workspace](image.png)
+
 All IBKR commands ship with pre-configured **widget metadata** for the OpenBB Workspace UI. Table commands include column definitions, chart views (bar, treemap, scatter, grouped bar, line), and grid layouts. Chart commands return Plotly JSON that renders natively in Workspace dashboards.
+
+### Setting Up Widgets in OpenBB Workspace
+
+1. Start the OpenBB API server: `openbb-api`
+2. Connect your custom backend in [OpenBB Workspace](https://pro.openbb.co)
+3. Find widgets under the **IBKR** category
+4. Browse subcategories (Portfolio, Market Data, FX, Options, Riskfolio, etc.) and drag widgets onto your layout — tables include built-in chart views (bar, treemap, scatter)
+5. Chart widgets (Plotly) render natively — no extra configuration needed
 
 ### Available Widgets
 
@@ -322,10 +356,28 @@ openbb_ibkr/
     └── iv_fallback.py       # IV gap-filling via yFinance fallback
 ```
 
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `ConnectionRefusedError` | Ensure TWS/IB Gateway is running and API is enabled (see [TWS Setup](#tws--ib-gateway-setup)) |
+| Wrong port | TWS paper = 7497, TWS live = 7496, Gateway live = 4001, Gateway paper = 4002 |
+| "No market data permissions" | Set `delayed=True` in credentials or subscribe to market data in Account Management |
+| Extension not found after install | Re-run `openbb-build` to register the extension |
+| "Client ID already in use" | Each concurrent connection needs a unique `client_id` — change via credentials or per-request override |
+
+## Known Limitations
+
+- **One connection per client_id** — concurrent scripts must use different `client_id` values
+- **IBKR rate limit** — ~50 messages/sec; bulk requests may need throttling
+- **Real-time data requires subscriptions** — without a market data subscription, set `delayed=True` for free 15-min delayed quotes
+- **Option flow monitoring** — requires a real-time options data subscription
+- **Riskfolio optimization** — uses historical returns; results are not forward-looking guarantees
+
 ## Development
 
 ```bash
-git clone https://github.com/alwanalkautsar/openbb-ibkr.git
+git clone https://github.com/alwank/openbb-ibkr.git
 cd openbb-ibkr
 pip install -e .[dev]
 pytest tests/ -v
@@ -334,6 +386,14 @@ pytest tests/ -v
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Security
+
+This extension communicates **only** with your local TWS/IB Gateway instance — no data is sent to external servers. Credentials are stored locally in OpenBB's user settings file.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 

@@ -1,0 +1,131 @@
+[
+  {
+    "name": "IBKR Connection",
+    "img": "",
+    "img_dark": "",
+    "img_light": "",
+    "description": "Interactive Brokers portfolio, market data, and options analysis powered by openbb-ibkr.",
+    "allowCustomization": true,
+    "tabs": {
+      "portfolio": {
+        "id": "portfolio",
+        "name": "Portfolio",
+        "layout": [
+          {
+            "i": "ibkr_positions_custom_obb",
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 14,
+            "state": {
+              "chartView": {
+                "enabled": true,
+                "chartType": "treemap"
+              }
+            }
+          },
+          {
+            "i": "ibkr_account_summary_custom_obb",
+            "x": 0,
+            "y": 14,
+            "w": 20,
+            "h": 11
+          },
+          {
+            "i": "ibkr_margin_summary_custom_obb",
+            "x": 20,
+            "y": 14,
+            "w": 20,
+            "h": 11
+          }
+        ]
+      },
+      "market-data": {
+        "id": "market-data",
+        "name": "Market Data",
+        "layout": [
+          {
+            "i": "ibkr_market_quote_custom_obb",
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 10,
+            "state": {
+              "params": {
+                "symbol": "AAPL"
+              }
+            }
+          },
+          {
+            "i": "market_historical_custom_obb",
+            "x": 0,
+            "y": 10,
+            "w": 40,
+            "h": 15,
+            "state": {
+              "params": {
+                "symbol": "AAPL",
+                "duration": "1 M",
+                "bar_size": "1 day"
+              },
+              "chartView": {
+                "enabled": true,
+                "chartType": "line"
+              }
+            }
+          }
+        ]
+      },
+      "options": {
+        "id": "options",
+        "name": "Options",
+        "layout": [
+          {
+            "i": "ibkr_option_screener",
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 15,
+            "state": {
+              "params": {
+                "symbol": "AAPL"
+              }
+            }
+          },
+          {
+            "i": "ibkr_option_decision_signals_custom_obb",
+            "x": 0,
+            "y": 15,
+            "w": 40,
+            "h": 10,
+            "state": {
+              "params": {
+                "symbol": "AAPL"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "groups": [
+      {
+        "name": "Symbol",
+        "type": "param",
+        "paramName": "symbol",
+        "defaultValue": "AAPL",
+        "widgetIds": [
+          "ibkr_market_quote_custom_obb",
+          "market_historical_custom_obb",
+          "ibkr_option_screener",
+          "ibkr_option_decision_signals_custom_obb"
+        ]
+      }
+    ],
+    "prompts": [
+      "What are my current portfolio positions and how is each performing? Show me the largest holdings by market value.",
+      "Analyze my account margin utilization. How much excess liquidity do I have and what is my cushion ratio?",
+      "Show me the option screener for my largest holding. Are there any high IV/RV ratio opportunities?",
+      "What is the overall health of my IBKR account? Summarize net liquidation, buying power, and margin requirements."
+    ]
+  }
+]

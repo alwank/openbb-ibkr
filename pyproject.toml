@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openbb-ibkr"
-version = "0.1.2"
+version = "0.2.0"
 description = "Interactive Brokers provider extension for OpenBB Platform"
 readme = "README.md"
 license = "MIT"
@@ -47,7 +47,10 @@ ibkr = "openbb_ibkr:ibkr_provider"
 ibkr = "openbb_ibkr.ibkr_router:router"
 
 [tool.setuptools]
-packages = ["openbb_ibkr", "openbb_ibkr.models", "openbb_ibkr.utils"]
+packages = ["openbb_ibkr", "openbb_ibkr.models", "openbb_ibkr.utils", "openbb_ibkr.workspace"]
+
+[tool.setuptools.package-data]
+"openbb_ibkr.workspace" = ["*.json"]
 
 [tool.ruff]
 line-length = 120

@@ -67,6 +67,29 @@ You can also override connection parameters per-request via `host`, `port`, and 
 
 All IBKR commands ship with pre-configured **widget metadata** for the OpenBB Workspace UI. Table commands include column definitions, chart views (bar, treemap, scatter, grouped bar, line), and grid layouts. Chart commands return Plotly JSON that renders natively in Workspace dashboards.
 
+### Workspace App
+
+The package includes a bundled **Workspace App** with a pre-configured 3-tab layout:
+
+- **Portfolio** — Positions treemap, account summary, margin requirements
+- **Market Data** — Real-time quotes and historical price charts
+- **Options** — Option screener with Greeks and decision signals
+
+To launch the app with `openbb-api`:
+
+```bash
+openbb-api --apps-json $(python -c "from openbb_ibkr.workspace import get_apps_json_path; print(get_apps_json_path())")
+```
+
+Or programmatically:
+
+```python
+from openbb_ibkr.workspace import get_apps_json_path
+print(get_apps_json_path())  # Pass to openbb-api --apps-json
+```
+
+> **Note:** Requires `pip install openbb-platform-api` for the `openbb-api` command.
+
 ### Available Widgets
 
 | Widget | Type | subCategory | widgetId |
